@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 
 const Connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'recode_impulso'
+    host: process.env.EDU_HOST,
+    user: process.env.EDU_USER,
+    password: process.env.EDU_PASSWORD,
+    database: process.env.EDU_DATABASE
 })
 
 module.exports = Connection;

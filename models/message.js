@@ -1,8 +1,10 @@
 const Conn = require('../config/database');
 
 const Message = function (message) {
-    this.name_msg = message.name_msg;
+    this.name = message.name;
     this.msg = message.msg;
+    this.assunto = message.assunto;
+    this.email = message.email;
 }
 
 Message.getAll = result => {

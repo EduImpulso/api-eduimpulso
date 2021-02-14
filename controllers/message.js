@@ -8,8 +8,10 @@ exports.create = (req, res) => {
     }
 
     const message = new Message({
-        name_msg: req.body.name_msg,
-        msg: req.body.msg
+        name: req.body.name,
+        msg: req.body.msg,
+        assunto: req.body.assunto,
+        email: req.body.email
     })
 
     Message.create(message, (error, results) => {
