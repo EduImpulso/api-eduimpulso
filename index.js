@@ -9,6 +9,7 @@ server.use(express.json());
 
 const PORT = process.env.PORT || 5000
 
+require('./routes/user.routes.js')(server);
 require('./routes/message.routes.js')(server);
 require('./routes/course.routes.js')(server);
 
