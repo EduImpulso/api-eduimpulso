@@ -8,7 +8,7 @@ const Message = function (message) {
 }
 
 Message.getAll = result => {
-    const sql = "SELECT * FROM messages";
+    const sql = "SELECT * FROM mensagens";
     Conn.query(sql, (error, res) => {
         if (error){
             return error;
@@ -18,7 +18,7 @@ Message.getAll = result => {
 }
 
 Message.create = (newMessages, result) => {
-    const sql = "INSERT INTO messages SET ?";
+    const sql = "INSERT INTO mensagens SET ?";
     Conn.query(sql, newMessages, (error, res) => {
         if (error){
             result(true, {error: "Message not sent"})
