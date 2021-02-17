@@ -18,21 +18,23 @@ User.getAll = result => {
     })
 }
 
-User.login = (email, password, result) => {
-    const sql = `SELECT * FROM usuarios WHERE email=${email} AND password=${password}`;
+User.login = (user, result) => {
+    const { email, password } = user;
+    const sql = `SELECT * FROM usuarios WHERE email='${email}' AND password='${password}'`;
     Conn.query(sql, (error, res) => {
         if (error){
             console.log("error", error);
             result(error, null);
             return
         } 
-        if (res.length){
-            console.log("found user", res[0]);
-            result(null, res[0]);
+        if (res){
+            console.log("found user", res);
+            result(null, res);
+            return;
+        } else {
+            result({kind: 'not_found'}, null)
             return;
         }
-
-        result({kind: 'not_found'}, null)
     })
 }
 

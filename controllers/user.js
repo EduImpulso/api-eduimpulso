@@ -39,7 +39,7 @@ exports.login = (req, res) => {
 
     User.login(user, (error, results) => {
         if(error){
-            if(err.kin === 'not_found'){
+            if(error.kind === 'not_found'){
                 res.status(404).send({
                     message: `Invalid email or password. Try again`
                 });

@@ -5,4 +5,5 @@ module.exports = server => {
     server.get('/user', user.findAll);
     server.delete('/user/:userId', user.delete);
     server.put("/user/:userId", user.update);
+    server.post('/login', user.login);
 };
