@@ -18,6 +18,25 @@ User.getAll = result => {
     })
 }
 
+User.findByEmail = (email, result) => {
+    const sql = `SELECT id_user, name, username, email FROM usuarios WHERE email = '${email}'`
+    Conn.query(sql, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log("found email: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+
+      result({ kind: "not_found" }, null);
+    });
+}
+
 User.login = (user, result) => {
     const { email, password } = user;
     const sql = `SELECT id_user, name, username, email FROM usuarios WHERE email='${email}' AND password='${password}'`;
@@ -48,8 +67,9 @@ User.create = (newUser, result) => {
     })
 }
 
-User.delete = (id, result) => {
-    sql.query("DELETE FROM customers WHERE id_user = ?", id, (err, res) => {
+User.delete = (email, result) => {
+    const sql = `DELETE FROM usuarios WHERE email = '${email}'`
+    Conn.query(sql, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
@@ -57,20 +77,20 @@ User.delete = (id, result) => {
       }
   
       if (res.affectedRows == 0) {
-        // not found Customer with the id
         result({ kind: "not_found" }, null);
         return;
       }
   
-      console.log("deleted user with id: ", id);
+      console.log("deleted user with email: ", email);
       result(null, res);
     });
   };
 
 User.update = (id, user, result) => {
-    sql.query(
-      "UPDATE user SET email = ?, name = ?, username = ? WHERE id_user = ?",
-      [user.email, user.name, user.username, id],
+  const { email, name, username } = user;
+  const sql = `UPDATE usuarios SET email = '${email}', name = '${name}', username = '${username}' WHERE id_user = ${id}`
+  Conn.query(
+      sql,
       (err, res) => {
         if (err) {
           console.log("error: ", err);
