@@ -9,7 +9,7 @@ const User = function (user) {
 }
 
 User.getAll = result => {
-    const sql = "SELECT * FROM usuarios";
+    const sql = "SELECT id_user, name, username, email FROM usuarios";
     Conn.query(sql, (error, res) => {
         if (error){
             return error;
@@ -20,14 +20,14 @@ User.getAll = result => {
 
 User.login = (user, result) => {
     const { email, password } = user;
-    const sql = `SELECT * FROM usuarios WHERE email='${email}' AND password='${password}'`;
+    const sql = `SELECT id_user, name, username, email FROM usuarios WHERE email='${email}' AND password='${password}'`;
     Conn.query(sql, (error, res) => {
         if (error){
             console.log("error", error);
-            result(error, null);
+            result(error);
             return
         } 
-        if (res){
+        if (res.length > 0){
             console.log("found user", res);
             result(null, res);
             return;
