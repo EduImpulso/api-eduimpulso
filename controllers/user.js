@@ -14,17 +14,30 @@ exports.create = (req, res) => {
         password: req.body.password
     })
 
-    User.create(user, (error, results) => {
-        if(error){
-            res.send(results)
-        } res.send(results);
-    })
+    User.findByEmail(user.email, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          User.create(user, (error, results) => {
+            if(error){
+              console.log(error)  
+              res.status(406).send(error)
+            } res.status(200).send(results);
+          })
+        } else {
+          res.status(500).send({
+            message: "Error retrieving user " + req.params.customerId
+          });
+        }
+      } else {
+        res.status(406).send(data)
+      };
+    });
 }
 
 exports.findAll = (req, res) => {
     User.getAll((error, results) => {
         if(error){
-            return error;
+            res.send(error);
         } res.send(results);
     })
 }

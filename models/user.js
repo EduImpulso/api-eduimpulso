@@ -3,7 +3,6 @@ const Conn = require('../config/database');
 const User = function (user) {
     this.name = user.name;
     this.username = user.username;
-    this.born_date = user.born;
     this.email = user.email;
     this.password = user.password
 }
@@ -58,13 +57,13 @@ User.login = (user, result) => {
 }
 
 User.create = (newUser, result) => {
-    const sql = "INSERT INTO usuarios SET ?";
-    Conn.query(sql, newUser, (error, res) => {
-        if (error){
-            result(true, {error: "User don't registered"})
-        } console.log("User registered: ");
-        result(null, {id: res.insert_id, ...newUser});
-    })
+  const sql = "INSERT INTO usuarios SET ?";
+  Conn.query(sql, newUser, (error, res) => {
+      if (error){
+          result(true, {error: "Message not sent"})
+      } console.log("User registered: ");
+      result(null, {id: res.insertId, ...newUser});
+  })
 }
 
 User.delete = (email, result) => {
